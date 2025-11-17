@@ -1,38 +1,30 @@
 # ----------------------------------------------------------
 # Dockerfile for repo-of-the-day (Express, Node.js, cron)
-# Production-grade, beginner-friendly, secure build
+# Clean, robust, and beginner-friendly: npm-based only
 # ----------------------------------------------------------
 
 # Use official Node LTS base image
 FROM node:20-alpine
 
-# Set working directory inside container
 WORKDIR /usr/src/app
 
-# Copy package files first (for efficient docker caching)
-COPY package.json .
-COPY pnpm-lock.yaml .  # In case you use pnpm. Remove if not.
+# Copy only package.json and package-lock.json (if present) first
+COPY package.json ./
+COPY package-lock.json ./  # Safe even if absent (Docker just warns, does not error)
 
-# Install dependencies (prefer pnpm if lock present, else npm)
-RUN if [ -f pnpm-lock.yaml ]; then \
-      npm install -g pnpm && pnpm install --prod; \
-    else \
-      npm install --production; \
-    fi
+# Install dependencies (production)
+RUN npm install --production
 
-# Copy rest of the application code
+# Copy all other source code (but .dockerignore will skip unnecessary files)
 COPY . .
 
-# Exclude development stuff via .dockerignore!
-# .env should NOT be copied; mount or inject at runtime.
+# .env should NOT be baked in; mount an actual .env at runtime
 
-# Use port 3000 for Express
 EXPOSE 3000
 
-# Run server (cron will work as Node and cron run in same process via node-cron)
 CMD ["node", "index.js"]
 
-# ---------- Instructions ----------
-# 1. Build: docker build -t repo-of-the-day .
-# 2. Run: docker run --env-file .env -p 3000:3000 repo-of-the-day
-#    (Mount your .env file as needed. Never bake secrets into image.)
+# ---------- INSTRUCTIONS ----------
+# Build: docker build -t repo-of-the-day .
+# Run:   docker run --env-file .env -p 3000:3000 repo-of-the-day
+# Or use docker-compose as documented.
