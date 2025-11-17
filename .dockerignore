@@ -1,0 +1,26 @@
+# =========================
+#   .dockerignore file
+#   Prevents unwanted files from entering docker image
+# =========================
+
+node_modules
+npm-debug.log
+pnpm-debug.log
+.env
+.env.*
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+
+# Editor & system files
+.vscode
+.idea
+*.swp
+.DS_Store
+Thumbs.db
+
+# Test & examples
+test
+tests
+*.md

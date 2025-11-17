@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  repo-of-the-day:
+    build: .
+    container_name: repo-of-the-day
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    restart: unless-stopped
+# Instructions:
+# 1. Build & start: docker-compose up --build
+# 2. Stop: docker-compose down
+# 3. Your .env file stays on host (not inside the image)
