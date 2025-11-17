@@ -4,7 +4,7 @@
 # ----------------------------------------------------------
 
 # Use official Node LTS base image
-FROM node:20-slim
+FROM node:20-alpine
 
 # Set working directory inside container
 WORKDIR /usr/src/app
