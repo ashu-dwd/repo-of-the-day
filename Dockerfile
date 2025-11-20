@@ -8,9 +8,9 @@ FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
-# Copy only package.json and package-lock.json (if present) first
+# Copy package.json and your lockfile (pnpm for this project)
 COPY package.json ./
-COPY package-lock.json ./  # Safe even if absent (Docker just warns, does not error)
+COPY pnpm-lock.yaml ./  # For pnpm users
 
 # Install dependencies (production)
 RUN npm install --production
