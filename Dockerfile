@@ -10,7 +10,7 @@ WORKDIR /usr/src/app
 
 # Copy package.json and your lockfile (pnpm for this project)
 COPY package.json ./
-COPY pnpm-lock.yaml ./  # For pnpm users
+COPY pnpm-lock.yaml* ./  # For pnpm users; wildcard allows build to succeed if missing
 
 # Install dependencies (production)
 RUN npm install --production
