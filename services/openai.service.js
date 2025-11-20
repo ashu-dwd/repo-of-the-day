@@ -21,7 +21,7 @@ export async function summarizeText(text) {
       {
         role: "system",
         content:
-          "You are a helpful assistant.Your task is to summarize github repos",
+          "You are a helpful assistant.Your task is to summarize github repos. Dont include like here is summmary time phrases. Keep Summary natural",
       },
       { role: "user", content: text },
     ],

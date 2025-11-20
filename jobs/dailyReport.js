@@ -4,8 +4,10 @@ import { sendMail } from "../services/mail.service.js";
 import config from "../config/index.js";
 
 export async function runDailyReport() {
+  console.log("Running daily report job...");
   try {
     const repos = await fetchTopTrendingRepos();
+    console.log("Fetched top trending repos:", repos.length);
     const summaries = [];
 
     for (const repo of repos) {
@@ -14,12 +16,15 @@ export async function runDailyReport() {
       summaries.push(`* ${repo.name}\n${summary}\n${repo.url}\n`);
     }
 
+    console.log("Summary generated for all repos....");
+
     const emailBody = [
       "Top 5 Trending GitHub Repositories (Daily Digest):",
       "",
       ...summaries,
     ].join("\n");
 
+    console.log("Email body generated....");
     await sendMail(
       {
         to: config.RECIPIENT_EMAIL,

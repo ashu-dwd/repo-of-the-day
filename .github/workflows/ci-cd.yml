@@ -1,0 +1,53 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Show Pipeline Step
+        run: echo "🚀 Repo of the Day pipeline has reached the custom log point!"
+
+      # - name: Run tests        # Uncomment if you add tests!
+      #   run: npm test
+
+      # - name: Lint code        # Uncomment if you add linters!
+      #   run: npm run lint
+
+      - name: Docker build
+        run: docker build -t repo-of-the-day .
+
+      # ----- Deployment Example Section -----
+      # Add your deployment steps here (manual, rsync, ssh, push to registry, etc.)
+      # - name: Deploy to production server
+      #   run: |
+      #     echo "Deploy step goes here"
+      #   env:
+      #     # Set up environment variables for your secrets/host info etc.
+# Instructions:
+# 1. This workflow runs on every push or PR to main/master.
+# 2. Customize the "Deployment Example Section" for your infrastructure (VPS via SSH, cloud platforms, registries, etc.)
+# 3. Add tests/lint steps in package.json to make the workflow more robust.
+
+# Resources for customizing deploy:
+# - GitHub Actions docs: https://docs.github.com/en/actions
+# - Node.js on Actions: https://github.com/actions/setup-node
+# - Docker deploy: https://docs.docker.com/engine/reference/commandline/push/
+# - Example prod deploy via ssh: https://github.com/appleboy/scp-action
