@@ -10,13 +10,19 @@ cron.schedule(
   },
   {
     timezone: "Asia/Kolkata",
-  }
+  },
 );
 
 const app = express();
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+// Adding a new route for the daily report
+app.get("/daily-report", (req, res) => {
+  runDailyReport();
+  res.send("Daily report generated");
 });
 
 app.listen(3000, () => {

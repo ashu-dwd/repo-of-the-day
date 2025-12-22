@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 const config = {
-  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   RECIPIENT_EMAIL: process.env.RECIPIENT_EMAIL || "raghavdwd@gmail.com",
   EMAIL_CONFIG: {
     host: process.env.EMAIL_HOST,

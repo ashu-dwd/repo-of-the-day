@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import config from "../config/index.js";
 dotenv.config();
 
 /**
@@ -10,13 +11,17 @@ dotenv.config();
  */
 
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || "7a049df254d7767a1ff8c68b434e3c3e",
-  baseURL: "https://api.bytez.com/models/v2/openai/v1",
+  apiKey: config.GEMINI_API_KEY || "7a049df254d7767a1ff8c68b434e3c3e",
+  baseURL:
+    "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
 });
+// console.log("OpenAI API Key:", process.env.OPENAI_API_KEY);
 
 export async function summarizeText(text) {
+  console.log("Summarizing text...", text);
   const response = await client.chat.completions.create({
-    model: "openai/gpt-4.1",
+    model: "gemini-2.5-flash",
+    reasoning_effort: "low",
     messages: [
       {
         role: "system",
@@ -25,7 +30,6 @@ export async function summarizeText(text) {
       },
       { role: "user", content: text },
     ],
-    tools: [],
     temperature: 0.7,
   });
   return response.choices[0].message.content;
