@@ -12,11 +12,13 @@ dotenv.config();
 
 const client = new OpenAI({
   apiKey: config.GEMINI_API_KEY || "7a049df254d7767a1ff8c68b434e3c3e",
-  baseURL:
-    "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/",
 });
 // console.log("OpenAI API Key:", process.env.OPENAI_API_KEY);
 
+const groundingTool = {
+  googleSearch: {},
+};
 export async function summarizeText(text) {
   console.log("Summarizing text...", text);
   const response = await client.chat.completions.create({
@@ -26,11 +28,12 @@ export async function summarizeText(text) {
       {
         role: "system",
         content:
-          "You are a helpful assistant.Your task is to summarize github repos. Dont include like here is summmary time phrases. Keep Summary natural",
+          "You are a helpful assistant.Your task is to summarize github repos. Dont include like here is summmary time phrases. Keep Summary natural. Use google search to find more information about the repo.",
       },
       { role: "user", content: text },
     ],
     temperature: 0.7,
+    tools: [groundingTool],
   });
   return response.choices[0].message.content;
 }
